@@ -31,23 +31,30 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: {
-    dirs: [
-      '~/components'
-    ]
-  },
+  components: true,
 
   styleResources: {
     scss: [
-      '@/assets/styles/variables.scss',
-      '@/assets/styles/mixins.scss'
+      '~/assets/styles/variables.scss',
+      '~/assets/styles/mixins.scss'
     ]
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build'
+    '@nuxt/typescript-build',
+    // https://www.npmjs.com/package/@nuxtjs/style-resources
+    '@nuxtjs/style-resources',
+    [
+      '@nuxtjs/google-fonts', {
+        families: {
+          'Inconsolata': {
+            wght: [400, 700]
+          }
+        }
+      }
+    ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
