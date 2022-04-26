@@ -46,6 +46,8 @@ export default {
     '@nuxt/typescript-build',
     // https://www.npmjs.com/package/@nuxtjs/style-resources
     '@nuxtjs/style-resources',
+    // https://github.com/nuxt-community/router-extras-module
+    '@nuxtjs/router-extras',
     [
       '@nuxtjs/google-fonts', {
         families: {
@@ -67,6 +69,10 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.API_URL || 'http://192.168.1.241:8000/'
+  },
+
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL || 'http://192.168.1.241:8000'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

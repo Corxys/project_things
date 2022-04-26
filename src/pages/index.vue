@@ -64,8 +64,8 @@
     data() {
       return {
         email: 'jennblngr@gmail.com',
-        password: '-jEn0910-'
-      }
+        password: 'tototata',
+      };
     },
     computed: {
       ...mapState({

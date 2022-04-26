@@ -36,4 +36,16 @@ export default {
         this.$router.push('/tableau-de-bord');
       })
   },
+  /**
+   * call to API for the logout
+   * @name sendLogoutRequest
+   * @param context
+   */
+  async sendLogoutRequest(context) {
+    await this.$axios.get('/logout', { withCredentials: true })
+      .then(() => {
+        context.commit('user/LOGOUT_USER_SUCCESS', {}, { root: true });
+        this.$router.push('/');
+      })
+  }
 };
