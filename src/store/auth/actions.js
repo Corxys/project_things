@@ -50,19 +50,17 @@ export default {
       });
   },
   async sendRegistrationRequest(context) {
-    console.log(context.state)
+    const data = JSON.stringify({
+      email: context.state.email,
+      password: context.state.password,
+      firstName: context.state.firstName,
+      lastName: context.state.lastName,
+    })
+
     const profilePicture = context.state.profilePicture;
 
-    const data = {};
-    data.email = context.state.email;
-    data.password = context.state.password;
-    data.firstName = context.state.firstName;
-    data.lastName = context.state.lastName;
-
-    const stringifyData = JSON.stringify(data);
-
     const formData = new FormData();
-    formData.append('data', stringifyData);
+    formData.append('data', data);
     formData.append('profilePicture', profilePicture);
 
     await this.$axios.post('/user/register',
