@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="thing-detail__files-infos">
-          <!-- name of active file -->
+          <!-- NAME ACTIVE FILE -->
           <h2 class="thing-detail__files-subtitle">
             <img class="thing-detail__files-preview-icon" src="../../assets/images/icon-preview.svg" alt="Prévisualisation" />
             Nom et format du fichier
