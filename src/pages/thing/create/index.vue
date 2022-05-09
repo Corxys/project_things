@@ -39,7 +39,7 @@
                   {{ attachment }}
                 </div>
                 <div :id="`delete-${index}`" class="thing-create__delete-thing" @click="deleteThingFile">
-                  <img class="thing-create__delete-thing-ico" src="@/assets/images/delete-thing-icon.svg" alt="Icône pour supprimer la photo de profil utilisateur" />
+                  <img class="thing-create__delete-thing-ico" src="../../../assets/images/icon-delete-thing.svg" alt="Icône pour supprimer la photo de profil utilisateur" />
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="thing-create__files-infos">
           <h2 class="thing-create__files-subtitle">
-            <img class="thing-create__files-preview-icon" src="@/assets/images/preview-icon.svg" alt="Prévisualisation" />
+            <img class="thing-create__files-preview-icon" src="../../../assets/images/icon-preview.svg" alt="Prévisualisation" />
             Nom et format du fichier
           </h2>
           <div v-if="activeFile" class="thing-create__files-path">
