@@ -4,7 +4,7 @@
       <h1 class="step__title">
         Créer un nouveau compte.
       </h1>
-      <p class="text">
+      <p class="step__text">
         Veuillez importer une photo de profil (facultatif).
       </p>
     </header>
@@ -26,7 +26,7 @@
         </label>
       </div>
       <div class="step__user-name">
-        {{ firstName }} {{ lastName }}
+        {{ firstName }} {{ lastName.toUpperCase() }}
       </div>
     </form>
     <div class="step__footer">

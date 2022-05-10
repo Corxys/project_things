@@ -13,7 +13,7 @@
       Pensez à vérifier dans vos spams.
     </p>
     <router-link to="/">
-      <button class="button" @click="resetSteps">
+      <button class="step__button button" @click="resetSteps">
         Connectez-vous
       </button>
     </router-link>
@@ -32,7 +32,7 @@
       resetSteps() {
         this.CHANGE_STEP({ stepId: 1 });
         this.VALIDATE_STEP({ stepId: 0 });
-      }
-    }
+      },
+    },
   };
 </script>

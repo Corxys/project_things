@@ -62,7 +62,7 @@
         </div>
         <span id="line-4" class="registration__step-line" />
         <div id="step-5" class="registration__step">
-          <button class="registration__step-number" :style="cssVars" @click="changeStep">
+          <button class="registration__step-number">
             5
           </button>
           <div class="registration__step-text">
@@ -333,6 +333,10 @@
       }
     }
 
+    &__footer {
+      margin-top: 1.875rem;
+    }
+
     &__form {
       width: 100%;
       display: flex;
@@ -368,6 +372,10 @@
       font-size: 23px;
       font-weight: 700;
       text-align: center;
+    }
+
+    &__button {
+      margin-top: 1.875rem;
     }
 
     &__error-message {

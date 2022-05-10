@@ -74,7 +74,6 @@ export default {
         context.commit('DISPLAY_ERROR_MESSAGE', { message: '' }, { root: true });
         context.commit('CHANGE_STEP', { stepId: 5 });
         context.commit('VALIDATE_STEP', { stepId: 4 });
-        this.$router.push('/');
       })
       .catch((error) => {
         if (error.response.status === 401) {
