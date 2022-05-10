@@ -26,7 +26,6 @@
     color: $white;
     font-weight: 700;
     padding: 15px 30px;
-    margin-top: 30px;
     text-align: center;
     align-self: center;
   }

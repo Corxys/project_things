@@ -63,8 +63,8 @@
     name: 'LoginPage',
     data() {
       return {
-        email: 'jennblngr@gmail.com',
-        password: 'tototata',
+        email: '',
+        password: '',
       };
     },
     computed: {
@@ -98,6 +98,7 @@
   .login {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding: 0 1.875rem;
     margin: 1.875rem 0;
@@ -147,6 +148,10 @@
         margin-top: 1.875rem;
       }
 
+      &-footer {
+        margin-top: 1.875rem;
+      }
+
       &-text {
         &--forgotten-password {
           align-self: flex-end;
@@ -165,6 +170,12 @@
       }
     }
     // FORM // END
+  }
+
+  @media (min-width: 768px) {
+    .login {
+      padding: 0 6.25rem;
+    }
   }
 
   @media (min-width: 992px) {
