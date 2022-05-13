@@ -26,7 +26,7 @@ export default {
   },
   /**
    * when the user click on a thing file, we change the onActive key
-   * @method
+   * @methods
    * @name CHANGE_ACTIVE_FILE
    * @param state
    * @param payload
@@ -45,4 +45,38 @@ export default {
       return attachment;
     });
   },
+  /**
+   *
+   * @name CREATE_THING_SUCCESS
+   * @param state
+   * @param payload
+   * @constructor
+   */
+  CREATE_THING_SUCCESS(state, payload) {
+    payload.attachments = payload.attachments.map((attachment, index) => {
+      attachment.onActive = index === 0;
+      return attachment;
+    });
+
+    state.id = payload.id;
+    state.title = payload.title;
+    state.description = payload.description;
+    state.owner = payload.owner;
+    state.attachments = payload.attachments;
+    state.purchaseDate = payload.purchase_date;
+    state.warrantyEndDate = payload.warranty_end_date;
+  },
+  HANDLE_DELETE_MODAL(state, payload) {
+    state.onDelete = payload.active;
+  },
+  DELETE_THING_SUCCESS(state) {
+    state.id = null;
+    state.title = '';
+    state.description = '';
+    state.owner = [];
+    state.attachments = [];
+    state.purchaseDate = '';
+    state.warrantyEndDate = '';
+    state.onDelete = false;
+  }
 };

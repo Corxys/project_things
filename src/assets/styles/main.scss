@@ -20,6 +20,13 @@ input[type=submit], .button {
   text-align: center;
   align-self: center;
 }
+
+.button {
+  &--cancel {
+    background-color: $black;
+  }
+}
+
 input[type=file] {
   width: 0.1px;
   height: 0.1px;
@@ -45,6 +52,11 @@ h1 {
     height: 0.25rem;
     background-color: $primary;
   }
+}
+
+h2  {
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .error-message {

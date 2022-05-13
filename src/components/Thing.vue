@@ -1,65 +1,81 @@
 <template>
-  <div class="thing">
-    <h2 class="thing__title">
-      {{ thing.title }}
-    </h2>
-    <hr class="thing__separator" />
-    <div class="thing__infos">
-      <div class="thing__info">
-        <div class="thing__info-title">
-          > Date d'achat
+  <div class="thing__wrapper">
+    <div class="thing" v-bind:style="thing.onDelete ? { opacity: 0.5 } : { opacity: 1 }">
+      <div class="thing__header">
+        <h2 class="thing__title" @click="handleGetThing">
+          {{ thing.title }}
+        </h2>
+        <button class="thing__delete" @click="HANDLE_DELETE_MODAL({ thingId: thing.id, active: true })">
+          <img class="thing__delete-src" src="../assets/images/icon-delete-thing.svg" alt="Icône de suppression" />
+        </button>
+      </div>
+      <hr class="thing__separator" />
+      <div class="thing__infos">
+        <div class="thing__info">
+          <div class="thing__info-title">
+            > Date d'achat {{ thing.onDelete }}
+          </div>
+          <div class="thing__info-value">
+            {{ new Date(thing.purchase_date).toLocaleDateString() }}
+          </div>
         </div>
-        <div class="thing__info-value">
-          {{ new Date(thing.purchase_date).toLocaleDateString() }}
+        <div v-if="thing.warranty_end_date" class="thing__info">
+          <div class="thing__info-title">
+            > Fin de garantie
+          </div>
+          <div class="thing__info-value">
+            {{ new Date(thing.warranty_end_date).toLocaleDateString() }}
+          </div>
         </div>
       </div>
-      <div v-if="thing.warranty_end_date" class="thing__info">
-        <div class="thing__info-title">
-          > Fin de garantie
+      <div class="thing__footer">
+        <div class="thing__preview">
+          <a :href="$config.apiURL + thing.attachments[0].url" target="_blank">
+            <img class="thing__preview-src" src="../assets/images/icon-preview.svg" alt="Icône de prévisualisation" />
+            Prévisualiser
+          </a>
         </div>
-        <div class="thing__info-value">
-          {{ new Date(thing.warranty_end_date).toLocaleDateString() }}
-        </div>
-      </div>
-    </div>
-    <div class="thing__footer">
-      <div class="thing__preview">
-        <a :href="$config.apiURL + thing.attachments[0].url" target="_blank">
-          <img class="thing__preview-src" src="../assets/images/icon-preview.svg" alt="Icône de prévisualisation" />
-          Prévisualiser
-        </a>
-      </div>
-      <router-link :to="`/thing/${thing.id}`">
         <button class="button" @click="handleGetThing">
           Détails
         </button>
-      </router-link>
+      </div>
+    </div>
+    <div v-if="thing.onDelete" class="thing__delete-modal">
+      <h2 class="thing__delete-modal-title">
+        Souhaitez-vous vraiment supprimer votre Thing ?
+      </h2>
+      <div class="thing__delete-modal-buttons">
+        <button class="thing__delete-modal-button button" @click="sendDeleteRequest({ thingId: thing.id })">
+          Oui
+        </button>
+        <button class="thing__delete-modal-button button button--cancel" @click="HANDLE_DELETE_MODAL({ active: false })">
+          Non
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
 
   export default Vue.extend({
     name: 'ThingComponent',
     props: {
       thing: Object,
     },
-    data() {
-      return {
-        selectIsOpen: false,
-      };
-    },
     methods: {
       ...mapMutations('thing', ['GET_THING_BY_ID']),
+      ...mapMutations('user', ['HANDLE_DELETE_MODAL']),
+      ...mapActions('thing', ['sendDeleteRequest']),
 
       /**
        * @name handleGetThing
        */
       handleGetThing() {
         this.GET_THING_BY_ID(this.thing);
+        this.$router.push(`/thing/${this.thing.id}`)
       },
     },
   });
@@ -76,9 +92,31 @@
       margin-bottom: 0;
     }
 
+    &__wrapper {
+      position: relative;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     &__title {
-      font-size: 1rem;
-      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &__delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $black;
+      height: 1.563rem;
+      width: 1.563rem;
+
+      img {
+        width: 50%;
+      }
     }
 
     &__separator {
@@ -123,6 +161,29 @@
       &-src {
         width: 1.063rem;
         margin-right: 0.625rem;
+      }
+    }
+
+    &__delete-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background-color: $secondary;
+      padding: 1.875rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &-title {
+        text-align: center;
+      }
+
+      &-buttons {
+        margin-top: 0.938rem;
       }
     }
   }
