@@ -65,7 +65,8 @@ export default {
     })
     formData.append('attachmentsToDelete', JSON.stringify(payload.attachmentsToDelete));
 
-    await this.$axios.post(`thing/edit/${payload.id}`,
+    await this.$axios.post(
+      `thing/edit/${payload.id}`,
       formData,
       {
         'Content-Type': 'multipart/form-data',
@@ -78,6 +79,28 @@ export default {
       })
       .catch(() => {
         context.commit('DISPLAY_ERROR_MESSAGE', { message: 'Une erreur s\'est produite.' }, { root: true })
+      })
+  },
+
+  /**
+   * when the user confirms to delete a Thing
+   * @name sendDeleteRequest
+   * @param context
+   * @param payload
+   */
+  async sendDeleteRequest(context, payload) {
+    await this.$axios.delete(
+      `/thing/delete/${payload.thingId}`,
+      {
+        withCredentials: true,
+      })
+      .then(() => {
+        context.commit('user/DELETE_THING_SUCCESS', {}, { root: true });
+        context.commit('thing/DELETE_THING_SUCCESS', {}, { root: true });
+        this.$router.push('/tableau-de-bord');
+      })
+      .catch((error) => {
+        console.log(error);
       })
   },
 };

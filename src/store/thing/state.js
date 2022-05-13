@@ -6,4 +6,5 @@ export default () => ({
   attachments: [],
   purchaseDate: '',
   warrantyEndDate: '',
+  onDelete: false,
 });

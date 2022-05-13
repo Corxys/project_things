@@ -33,6 +33,11 @@ export default {
           if (first.purchase_date > second.purchase_date) return -1;
         })
 
+        thingsData = thingsData.map((thing) => {
+          thing.onDelete = false;
+          return thing;
+        });
+
         context.commit('user/LOGIN_USER_SUCCESS', { ...user.data.user, things: thingsData }, { root: true });
         this.$router.push('/tableau-de-bord');
       });

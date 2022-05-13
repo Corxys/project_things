@@ -36,7 +36,7 @@
         <br />
         +
       </router-link>
-      <thing v-for="thing of sortedThings" :key="thing.id" :thing="thing" />
+      <thing v-for="thing of things" :key="thing.id" :thing="thing" />
     </section>
     <!-- CONTENT // END -->
   </main>
@@ -44,7 +44,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import { mapState } from 'vuex';
+  import { mapState, mapMutations } from 'vuex';
   import vClickOutside from 'v-click-outside';
 
   export default Vue.extend({
@@ -52,7 +52,6 @@
     data() {
       return {
         selectIsOpen: false,
-        sortedThings: [],
         nameSelect: 'Date d\'achat',
         options: [
           {
@@ -82,10 +81,9 @@
         things: state => state.user.things,
       }),
     },
-    mounted() {
-      this.sortedThings = [...this.things];
-    },
     methods: {
+      ...mapMutations('user', ['SORTING_THINGS']),
+
       /**
        * @name clickOutsideSelect
        */
@@ -94,6 +92,7 @@
       },
 
       /**
+       * when the user clicks on the Things sorting drop-down menu
        * @name handleSelect
        * @param event
        */
@@ -103,38 +102,7 @@
 
         this.selectIsOpen = false;
 
-        // purchase date sort
-        if (selectedOption.id === 1) {
-          this.sortedThings = this.sortedThings.sort((thing1, thing2) => {
-            if (thing1.purchase_date < thing2.purchase_date) { return -1 }
-            if (thing1.purchase_date > thing2.purchase_date) { return 1 }
-            return 0;
-          });
-        }
-        // warranty end date sort
-        else if (selectedOption.id === 2) {
-          this.sortedThings = this.sortedThings.sort((thing1, thing2) => {
-            if (thing1.warranty_end_date < thing2.warranty_end_date) { return -1 }
-            if (thing1.warranty_end_date > thing2.warranty_end_date) { return 1 }
-            return 0;
-          });
-        }
-        // alphabetical order sort
-        else if (selectedOption.id === 3) {
-          this.sortedThings = this.sortedThings.sort((thing1, thing2) => {
-            if (thing1.title.toLowerCase() < thing2.title.toLowerCase()) { return -1 }
-            if (thing1.title.toLowerCase() > thing2.title.toLowerCase()) { return 1 }
-            return 0;
-          });
-        }
-        // alphabetical order sort
-        else if (selectedOption.id === 4) {
-          this.sortedThings = this.sortedThings.sort((thing1, thing2) => {
-            if (thing1.title.toLowerCase() < thing2.title.toLowerCase()) { return 1 }
-            if (thing1.title.toLowerCase() > thing2.title.toLowerCase()) { return -1 }
-            return 0;
-          });
-        }
+        this.SORTING_THINGS({ selectedOption: selectedOption.id });
       },
     },
   });
@@ -171,9 +139,10 @@
       width: 200px;
       height: 45px;
       background-color: $secondary;
-      padding: 0px 18px;
+      padding: 0 18px;
 
       &-wrapper {
+        z-index: 5;
         position: relative;
       }
     }

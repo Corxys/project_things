@@ -7,10 +7,16 @@
       <h1 class="thing-detail__title">
         {{ thing.title }}
       </h1>
-      <!-- EDIT ICON -->
-      <router-link :to="`/thing/modifier/${ thing.id }`" class="thing-detail__edit-thing">
-        <img class="thing-detail__edit-thing-ico" src="../../assets/images/icon-edit-thing.svg" alt="Modification d'une Thing" />
-      </router-link>
+      <div class="thing-detail__buttons">
+        <!-- DELETE BUTTON -->
+        <button class="thing-detail__delete" @click="HANDLE_DELETE_MODAL({ thingId: thing.id, active: !thing.onDelete })">
+          <img class="thing-detail__delete-src" src="@/assets/images/icon-delete-thing.svg" alt="Suppression de la Thing" />
+        </button>
+        <!-- EDIT ICON -->
+        <router-link :to="`/thing/modifier/${ thing.id }`" class="thing-detail__edit-thing">
+          <img class="thing-detail__edit-thing-ico" src="../../assets/images/icon-edit-thing.svg" alt="Modification d'une Thing" />
+        </router-link>
+      </div>
     </section>
     <!-- HEADER // END -->
 
@@ -67,11 +73,24 @@
       <!-- DATA // END -->
     </section>
     <!-- CONTENT // END -->
+    <div v-if="thing.onDelete" class="thing-detail__delete-modal">
+      <h2 class="thing-detail__delete-modal-title">
+        Souhaitez-vous vraiment supprimer votre Thing ?
+      </h2>
+      <div class="thing-detail__delete-modal-buttons">
+        <button class="thing__delete-modal-button button" @click="sendDeleteRequest({ thingId: thing.id })">
+          Oui
+        </button>
+        <button class="thing-detail__delete-modal-button button button--cancel" @click="HANDLE_DELETE_MODAL({ active: false })">
+          Non
+        </button>
+      </div>
+    </div>
   </main>
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
   export default {
     name: 'ThingPage',
@@ -85,19 +104,10 @@
         thing: state => state.thing,
       }),
     },
-    mounted() {
-      this.thing.attachments.forEach((attachment) => {
-        if (attachment.onActive) {
-          this.activeFile = attachment;
-        } else {
-          this.CHANGE_ACTIVE_FILE({ id: this.thing.attachments[0].id });
-          this.activeFile = this.thing.attachments[0]
-        }
-      });
-    },
     methods: {
-      // ...map()
       ...mapMutations('thing', ['CHANGE_ACTIVE_FILE']),
+      ...mapMutations('thing', ['HANDLE_DELETE_MODAL']),
+      ...mapActions('thing', ['sendDeleteRequest']),
 
       /**
        * when the user clicks on the thumbnail of a file, we change the active file
@@ -134,6 +144,24 @@
       align-items: center;
       width: 100%;
       min-height: 45px;
+    }
+
+    &__buttons {
+      display: flex;
+      align-items: center;
+    }
+
+    &__delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $black;
+      min-height: 45px;
+      min-width: 45px;
+
+      img {
+        height: 20px;
+      }
     }
 
     &__edit-thing {
@@ -204,6 +232,29 @@
 
       &:last-child {
         margin-bottom: 0;
+      }
+    }
+
+    &__delete-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 330px;
+      height: 175px;
+      background-color: $secondary;
+      padding: 1.875rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &-title {
+        text-align: center;
+      }
+
+      &-buttons {
+        margin-top: 0.938rem;
       }
     }
   }
